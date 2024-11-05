@@ -1,18 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class BasicShooting : MonoBehaviour
 {
     [SerializeField] private GameObject bullet;
-    [SerializeField] private Transform shootOrigin;
+    [SerializeField] private GameObject[] shootOrigin;
     [SerializeField] private float cooldown;
     [SerializeField] private float range;
     [SerializeField] private LayerMask layer;
+    [SerializeField] private Boolean machinegun;
     private bool canShoot;
     private GameObject target;
     [SerializeField] private AudioClip[] ShootsSounds;
     private AudioSource source;
+    private int TurretCounter;
 
 
     private void Start()
@@ -29,6 +33,7 @@ public class BasicShooting : MonoBehaviour
         {
             target = hit.collider.gameObject;
             Shoot();
+
         }
     }
     private void ResetCooldown()
@@ -42,10 +47,35 @@ public class BasicShooting : MonoBehaviour
             
             return;
         }
-        source.PlayOneShot(ShootsSounds[Random.Range(0,ShootsSounds.Length)]);
+        source.PlayOneShot(ShootsSounds[UnityEngine.Random.Range(0,ShootsSounds.Length)]);
         canShoot = false;
 
-        GameObject myBullet = Instantiate(bullet,shootOrigin.position,Quaternion.identity);
-        Invoke("ResetCooldown",cooldown);
+        if (shootOrigin.Length ==1 && !machinegun)
+        {
+            GameObject myBullet = Instantiate(bullet, shootOrigin[0].transform.position, Quaternion.identity);
+
+            Invoke("ResetCooldown", cooldown);
+        }
+        else
+        {
+            GameObject myBullet = Instantiate(bullet, shootOrigin[UnityEngine.Random.Range(0, shootOrigin.Length)].transform.position, Quaternion.identity);
+            
+            
+            if (TurretCounter == 3)
+            {
+
+                Invoke("ResetCooldown", 2.5f);
+                TurretCounter = 0;
+            }
+            else
+            {
+                Invoke("ResetCooldown", 0.3f);
+                TurretCounter += 1;
+            }
+            
+        }
+
+
+        
     }
 }
