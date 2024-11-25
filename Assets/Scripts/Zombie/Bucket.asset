@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294a8837fd4713c49b939bdc2e1e8594, type: 3}
   m_Name: Bucket
   m_EditorClassIdentifier: 
-  healt: 65
+  healt: 45
   damage: 1
   sprite: {fileID: 21300000, guid: 59f54baa4ded924418bc0427a0a8143e, type: 3}
   deadSprite: {fileID: 21300000, guid: 718eaa790b7f589418dc95d3e3685364, type: 3}
